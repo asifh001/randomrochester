@@ -5,99 +5,124 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>Random Rochester</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-		<script type="text/javascript">
 
-google.charts.load('current', {'packages':['corechart']});
+<head>
+	<title>Random Rochester</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
 
-// Set a callback to run when the Google Visualization API is loaded.
-google.charts.setOnLoadCallback(drawChart);
+		google.charts.load('current', { 'packages': ['corechart'] });
+		google.charts.load('current', {'packages':['table']});
+		// Set a callback to run when the Google Visualization API is loaded.
+		google.charts.setOnLoadCallback(drawChart);
 
-function drawChart() {
-      var queryStringNewPositive = encodeURIComponent('SELECT A, C');
+		function drawChart() {
+			var queryStringNewPositive = encodeURIComponent('SELECT A, C');
 
-      var queryNewPositive = new google.visualization.Query(
-          'https://docs.google.com/spreadsheets/d/1pYgPExnjYX_hlTUeZc5CP2jdgCSSpOdUV6E3Idra1_U/gviz/tq?sheet=Sheet1&headers=1&tq=' + queryStringNewPositive);
-		  queryNewPositive.send(handleNewPositiveQueryResponse);
-
-	  
-      var queryStringCumulative = encodeURIComponent('SELECT A, B');
-
-      var queryCumulative = new google.visualization.Query(
-          'https://docs.google.com/spreadsheets/d/1pYgPExnjYX_hlTUeZc5CP2jdgCSSpOdUV6E3Idra1_U/gviz/tq?sheet=Sheet1&headers=1&tq=' + queryStringCumulative);
-		  queryCumulative.send(handleCumulativeQueryResponse);	  
-    }
-
-    function handleNewPositiveQueryResponse(response) {
-      if (response.isError()) {
-        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-        return;
-      }
-
-      var data = response.getDataTable();
-      var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-      chart.draw(data, { height: 400, title: 'New positive COVID-19 cases', legend: {position: 'none'} });
-    }
-
-	
-    function handleCumulativeQueryResponse(response) {
-      if (response.isError()) {
-        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-        return;
-      }
-
-      var data = response.getDataTable();
-      var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
-      chart.draw(data, { height: 400, title: 'Cumulative COVID-19 cases', legend: {position: 'none'} });
-    }
+			var queryNewPositive = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1pYgPExnjYX_hlTUeZc5CP2jdgCSSpOdUV6E3Idra1_U/gviz/tq?sheet=Sheet1&headers=1&tq=' + queryStringNewPositive);
+			queryNewPositive.send(handleNewPositiveQueryResponse);
 
 
-		</script>
-	</head>
-	<body class="is-preload">
+			var queryStringCumulative = encodeURIComponent('SELECT A, B');
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+			var queryCumulative = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1pYgPExnjYX_hlTUeZc5CP2jdgCSSpOdUV6E3Idra1_U/gviz/tq?sheet=Sheet1&headers=1&tq=' + queryStringCumulative);
+			queryCumulative.send(handleCumulativeQueryResponse);
+			
+			var queryStringTable = encodeURIComponent('SELECT A, B, C');
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
+			var queryTable = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1pYgPExnjYX_hlTUeZc5CP2jdgCSSpOdUV6E3Idra1_U/gviz/tq?sheet=Sheet1&headers=1&tq=' + queryStringTable);
+				queryTable.send(handleTableResponse);
+		}
 
-							<!-- Header -->
-								<header id="header">
-									<a href="index.html" class="logo"><strong>Random</strong> Rochester</a>
-									<ul class="icons">
-										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-										<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
-									</ul>
-								</header>
+		function handleNewPositiveQueryResponse(response) {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
 
-							<!-- Banner -->
-								<section id="banner">
-									<div class="content">
-										<header>
-											<h1>Olmsted County COVID-19 cases</h1>
-											<p>Cumulative and new positive cases for COVID-19</p>
-										</header>
-										<div id="chart_div2" style="width:600; height:400">
-										</div>
-											<div id="chart_div" style="width:600; height:400">
-											</div>
-											<p class="copyright">Source: <a href='https://www.health.state.mn.us/diseases/coronavirus/situation.html'>https://www.health.state.mn.us/diseases/coronavirus/situation.html</a></p>	
-									</div>
-									
-								</section>
+			var data = response.getDataTable();
+			var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+			chart.draw(data, { height: 400, title: 'New positive COVID-19 cases', legend: { position: 'none' } });
+		}
 
-							<!-- Section -->
-							<!-- 	
+
+		function handleCumulativeQueryResponse(response) {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+
+			var data = response.getDataTable();
+			var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+			chart.draw(data, { height: 400, title: 'Cumulative COVID-19 cases', legend: { position: 'none' } });
+		}
+
+		function handleTableResponse(response) {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+
+			var data = response.getDataTable();
+			var table = new google.visualization.Table(document.getElementById('chart_div3'));
+
+			table.draw(data, { showRowNumber: true, title:'Raw Data', width: '400', height: '100%' });
+		}
+
+
+	</script>
+</head>
+
+<body class="is-preload">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
+
+				<!-- Header -->
+				<header id="header">
+					<a href="index.html" class="logo"><strong>Random</strong> Rochester</a>
+					<ul class="icons">
+						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a>
+						</li>
+						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
+					</ul>
+				</header>
+
+				<!-- Banner -->
+				<section id="banner">
+					<div class="content">
+						<header>
+							<h1>Olmsted County COVID-19 cases</h1>
+							<p>Cumulative and new positive cases for COVID-19</p>
+						</header>
+						<div id="chart_div2" style="width:600; height:400">
+						</div>
+						<div id="chart_div" style="width:600; height:400">
+						</div>
+						<div id="chart_div3">
+						</div>
+						<p class="copyright">Source: <a
+								href='https://www.health.state.mn.us/diseases/coronavirus/situation.html'>https://www.health.state.mn.us/diseases/coronavirus/situation.html</a>
+						</p>
+					</div>
+
+				</section>
+
+				<!-- Section -->
+				<!-- 	
 							<section>
 									<header class="major">
 										<h2>Erat lacinia</h2>
@@ -189,29 +214,29 @@ function drawChart() {
 									</div>
 								</section>
 -->
-						</div>
-					</div>
+			</div>
+		</div>
 
-				<!-- Sidebar -->
+		<!-- Sidebar -->
 
-				<div id="sidebar">
-						<div class="inner">
+		<div id="sidebar">
+			<div class="inner">
 
-							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
-								</section>
+				<!-- Search -->
+				<section id="search" class="alt">
+					<form method="post" action="#">
+						<input type="text" name="query" id="query" placeholder="Search" />
+					</form>
+				</section>
 
-							<!-- Menu -->
-								<nav id="menu">
-									<header class="major">
-										<h2>Menu</h2>
-									</header>
-									<ul>
-										<li><a href="index.html">Homepage</a></li>
-									<!--	<li><a href="generic.html">Generic</a></li>
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2>Menu</h2>
+					</header>
+					<ul>
+						<li><a href="index.html">Homepage</a></li>
+						<!--	<li><a href="generic.html">Generic</a></li>
 										<li><a href="elements.html">Elements</a></li>
 										<li>
 											<span class="opener">Submenu</span>
@@ -237,11 +262,11 @@ function drawChart() {
 										<li><a href="#">Sapien Mauris</a></li>
 										<li><a href="#">Amet Lacinia</a></li>
 									-->
-									</ul>
-								</nav>
+					</ul>
+				</nav>
 
-							<!-- Section -->
-							<!--	
+				<!-- Section -->
+				<!--	
 							<section>
 									<header class="major">
 										<h2>Ante interdum</h2>
@@ -266,30 +291,31 @@ function drawChart() {
 								</section>
 
 							-->
-								<section>
-									<header class="major">
-										<h2>Get in touch</h2>
-									</header>
-									<ul class="contact">
-										<li class="icon solid fa-envelope"><a href="#">randomrochestermn@gmail.com</a></li>
-									</ul>
-								</section>
-							
-							
+				<section>
+					<header class="major">
+						<h2>Get in touch</h2>
+					</header>
+					<ul class="contact">
+						<li class="icon solid fa-envelope"><a href="#">randomrochestermn@gmail.com</a></li>
+					</ul>
+				</section>
 
-						</div>
-						
-					
-					</div>
-				
+
+
 			</div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
 
-	</body>
+		</div>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
 </html>
