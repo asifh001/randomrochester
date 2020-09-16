@@ -33,7 +33,13 @@
 				'https://docs.google.com/spreadsheets/d/1pYgPExnjYX_hlTUeZc5CP2jdgCSSpOdUV6E3Idra1_U/gviz/tq?sheet=Sheet1&headers=1&tq=' + queryStringCumulative);
 			queryCumulative.send(handleCumulativeQueryResponse);
 			
-			var queryStringTable = encodeURIComponent('SELECT A, B, C');
+			var queryStringSevenDay = encodeURIComponent('SELECT A, D');
+
+			var querySevenDay = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1pYgPExnjYX_hlTUeZc5CP2jdgCSSpOdUV6E3Idra1_U/gviz/tq?sheet=Sheet1&headers=1&tq=' + queryStringSevenDay);
+			querySevenDay.send(handleSevenDayQueryResponse);
+			
+			var queryStringTable = encodeURIComponent('SELECT A, B, C, D');
 
 			var queryTable = new google.visualization.Query(
 				'https://docs.google.com/spreadsheets/d/1pYgPExnjYX_hlTUeZc5CP2jdgCSSpOdUV6E3Idra1_U/gviz/tq?sheet=Sheet1&headers=1&tq=' + queryStringTable);
@@ -61,6 +67,17 @@
 			var data = response.getDataTable();
 			var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
 			chart.draw(data, { height: 400, title: 'Cumulative COVID-19 cases', legend: { position: 'none' } });
+		}
+
+		function handleSevenDayQueryResponse(response) {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+
+			var data = response.getDataTable();
+			var chart = new google.visualization.LineChart(document.getElementById('chart_div4'));
+			chart.draw(data, { height: 400, title: 'Seven Day Moving Average New COVID-19 cases', legend: { position: 'none' } });
 		}
 
 		function handleTableResponse(response) {
@@ -111,6 +128,8 @@
 						<div id="chart_div2" style="width:600; height:400">
 						</div>
 						<div id="chart_div" style="width:600; height:400">
+						</div>
+						<div id="chart_div4" style="width:600; height:400">
 						</div>
 						<div id="chart_div3">
 						</div>
